@@ -63,11 +63,16 @@ class Database{
     public function createTables(){
         try{
             $queries = new Queries();
-            $product = $queries->createProductTable();
-            $category = $queries->createCategoryTable();
-            
-            $this->buildTable($category);
-            $this->buildTable($product);
+
+            $products = $queries->createProductsTable();
+            $categories = $queries->createCategoriesTable();
+            $orders = $queries->createOrdersTable();
+            $customers = $queries->createCustomersTable();
+
+            $this->buildTable($categories);
+            $this->buildTable($products);
+            $this->buildTable($customers);
+            $this->buildTable($orders);
         }
         catch(Exception $e)
         {
@@ -85,9 +90,5 @@ class Database{
 
     public function getMysqli(){
         return $this->mysqli;
-    }
-
-    public function closeConnection(){
-        $this->mysqli->close();
     }
 }
