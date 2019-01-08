@@ -1,0 +1,6 @@
+.env
+data.json
+composer.json
+composer.lock
+vendor
+configDotEnv.php
