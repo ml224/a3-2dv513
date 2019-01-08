@@ -1,5 +1,5 @@
 <?php
-require_once("queries.php");
+require_once("view/Queries.php");
 
 class Database{
     private $mysqli;
@@ -60,35 +60,16 @@ class Database{
         }
     }
 
-    public function createTables(){
-        try{
-            $queries = new Queries();
+  
 
-            $products = $queries->createProductsTable();
-            $categories = $queries->createCategoriesTable();
-            $orders = $queries->createOrdersTable();
-            $customers = $queries->createCustomersTable();
-
-            $this->buildTable($categories);
-            $this->buildTable($products);
-            $this->buildTable($customers);
-            $this->buildTable($orders);
-        }
-        catch(Exception $e)
-        {
-            echo "something went wrong!... \n" . $e;
-        }
-        
-    }
-
-    private function buildTable(string $query){
+    public function query(string $query){
         if(!$this->mysqli->query($query))
         {
             throw new Exception($this->mysqli->error);
         }
     }
 
-    public function getMysqli(){
+    public function closeConnection(){
         return $this->mysqli;
     }
 }

@@ -1,13 +1,11 @@
 <?php
-require_once("Queries.php");
+require_once("DatabaseHandler.php");
 
 class Seeder{
-    private $mysqli;
-    private $queries;
+    private $dbHandler;
 
-    function __construct($mysqli){
-        $this->mysqli = $mysqli;
-        $this->queries = new Queries();
+    function __construct(DatabaseHandler $dbHandler){
+        $this->dbHandler = $dbHandler;
     }
 
     public function seedDb(){
@@ -25,34 +23,30 @@ class Seeder{
         $this->addCustomers($customers);
         $this->addOrders($orders);
 
-        $this->mysqli->close();
+        $this->dbHandler->close();
      }
 
     private function addCategories($categories){
         foreach($categories as $cat){
-            $query = $this->queries->addCategory($cat);
-            $this->mysqli->query($query);
+            $this->dbHandler->addCategory($cat);
         }
     }
 
     private function addProducts($products){
         foreach($products as $product){
-            $query = $this->queries->addProduct($product);
-            $this->mysqli->query($query);
+            $this->dbHandler->addProduct($product);
         }
     }
 
     private function addOrders($orders){
         foreach($orders as $order){
-            $query = $this->queries->addOrder($order);
-            $this->mysqli->query($query);
+            $this->dbHandler->addOrder($order);
         }
     }
 
     private function addCustomers($customers){
         foreach($customers as $customer){
-            $query = $this->queries->addCustomer($customer);
-            $this->mysqli->query($query);
+            $this->dbHandler->addCustomer($customer);
         }
     }
 
