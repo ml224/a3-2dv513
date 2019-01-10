@@ -53,6 +53,21 @@ class DatabaseHandler{
         $this->database->query($query);
     }
 
+    public function getMainCategories(){
+        $query = $this->queries->getMainCategories();
+        $mainCategories = $this->database->fetchArray($query);
+        return $mainCategories;
+    }
+
+    public function getProductsByCategoryName($cat){
+        $query = $this->queries->getProductsByCategoryName($cat);
+        $products = $this->database->fetchArray($query);
+        return $products;
+
+        //TODO: throw exception here and in db class if category name does not exist
+
+    }
+
     public function close(){
         $this->database->closeConnection();
     }

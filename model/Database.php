@@ -32,10 +32,6 @@ class Database{
         {
             throw new Exception($this->mysqli->error);
         } 
-        else
-        {
-            echo "connected to MySQL without db!";
-        }
     }
 
     private function createDatabase(){
@@ -53,10 +49,6 @@ class Database{
         if($this->mysqli->connect_error)
         {
             throw new Exception($this->mysqli->error);
-        } 
-        else
-        {
-            echo "connected to MySQL WITH db!";
         }
     }
 
@@ -67,6 +59,23 @@ class Database{
         {
             throw new Exception($this->mysqli->error);
         }
+    }
+
+    public function fetchArray($query){
+        try{
+            $categories = array();
+            $result = $this->mysqli->query($query);
+
+            while($cat = $result->fetch_array(MYSQLI_ASSOC)) {
+                array_push($categories, $cat);
+            }
+
+            return $categories;
+            
+        } catch(Exception $e){
+            echo "uh oh! Something went wrong! \n" . $e;
+        }
+        
     }
 
     public function closeConnection(){

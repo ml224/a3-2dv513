@@ -3,7 +3,7 @@ class Queries{
     public function createDatabase(){}
 
     public function createProductsTable(){
-        return "CREATE TABLE IF NOT EXISTS products(sku VARCHAR(256) PRIMARY KEY, name VARCHAR(256) NOT NULL, discount INT, category_id INT NOT NULL, price INT, currency VARCHAR(50), size VARCHAR(50), product_id VARCHAR(256) NOT NULL)";
+        return "CREATE TABLE IF NOT EXISTS products(sku VARCHAR(256) PRIMARY KEY, name VARCHAR(256) NOT NULL, discount_percentage INT, category_id INT NOT NULL, price INT, currency VARCHAR(50), size VARCHAR(50), product_id VARCHAR(256) NOT NULL, stock INT NOT NULL)";
 
     }
     
@@ -36,8 +36,11 @@ class Queries{
         $currency = $product["currency"];
         $size = $product["size"];
         $product_id = $product["product_id"];
+        $stock = $product["stock"];
+        $discount = $product["discount_percentage"];
 
-        return "INSERT IGNORE INTO products (sku, name, category_id, price, currency, size, product_id) VALUES ('$sku', '$name', '$category_id', '$price', '$currency', '$size', '$product_id')";
+
+        return "INSERT IGNORE INTO products (sku, name, category_id, price, currency, size, product_id, stock, discount_percentage) VALUES ('$sku', '$name', '$category_id', '$price', '$currency', '$size', '$product_id', '$stock', '$discount')";
     }
 
     public function addOrder(array $order){
@@ -63,5 +66,18 @@ class Queries{
         
 
         return "INSERT IGNORE INTO customers (customer_id, firstname, lastname, address, city, country, zip, email) VALUES ('$customer_id', '$firstname', '$lastname', '$address', '$city', '$country', '$zip', '$email')";        
+    }
+
+    public function getProductsByCategoryName($catName){
+        return "
+            SELECT p.name as product_name, c.name as category_name, p.category_id, price, sku, currency, size, stock, product_id 
+            FROM products p 
+            JOIN categories c on c.category_id = p.category_id 
+            WHERE c.name = '$catName'
+        ";
+    }
+
+    public function getMainCategories(){
+        return "SELECT name, category_id FROM categories WHERE parent_id = 0";    
     }
 }
