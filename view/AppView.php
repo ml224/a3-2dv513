@@ -1,66 +1,47 @@
 <?php
+require_once("view/pages/CategoriesPage.php");
+require_once("view/pages/OrdersPage.php");
 
 class AppView{
-    private $body;
-    private $products;
-    private $dbHandler;
-
     function __construct(DatabaseHandler $dbHandler){
         $this->dbHandler = $dbHandler;
-
-        if(!$this->renderHomepage()){
-            $products = $this->populateProducts();
-            $this->body = $this->getProducts($products);
-        }
-    }
-
-    
-    private function getProducts($products){
-        $html = '<div class="products"><ul>';
-        foreach($products as $product){
-            $title = $product["product_name"];
-            $price = $product["price"];
-            $currency = $product["currency"];
-            $stock = $product["stock"];
-
-            $html .= 
-            '<li class="product">
-                <p class="title">'.$title.'</p>
-                <p class="stock">Amount in stock: '.$stock.'</p>
-                <p class="price">'.$price.' '.$currency.'</p>
-            </li>';
-        }
-
-        return $html . '</ul></div>';
-    }
-
-    private function populateProducts(){
-        try{
-            return $this->dbHandler->getProductsByCategoryName($this->activeCategory());
-        } catch(Exception $e){
-            $body = $this->pageNotFound();
-        }
-    }
-
-    private function pageNotFound(){
-        return '
-        <h1>404</h1>
-        <p>Oops! The page was not found</p>';
     }
 
     public function renderApp() : void {
-        if($this->renderHomepage()){
-            $this->body = $this->homepageHtml();
-        }
-
-        echo $this->renderPage();
+        $body = $this->getBody();
+        echo $this->getContent($body);
     }
 
+    private function getBody(){
+        if($this->renderHomepage())
+        {
+            return $this->homepageHtml();
+        }
+        elseif($this->isActive('orders'))
+        {
+            $ordersPage = new OrdersPage();
+            return $ordersPage->getPageContent();
+        } 
+        else
+        {
+            $categoriesPage = new CategoriesPage($this->dbHandler);
+            return $categoriesPage->getPageContent();
+        }
+    }
+    
     private function renderHomepage() : bool {
         return strlen($_SERVER['REQUEST_URI']) <= 1;
     }
 
-    private function renderPage() : string {
+    
+    private function homepageHtml() : string {
+        return 
+        '<div class="homepage">
+            <p>home page!</p>
+        </div>';
+    }
+
+    private function getContent($body) : string {
         return '
         <!DOCTYPE html>
             <html lang="en">
@@ -72,8 +53,7 @@ class AppView{
             <body>
                 <div id="container">
                     '.$this->mainMenu().'
-                    '.$this->categoryMenu().'
-                    '.$this->body.'
+                    '.$body.'
                 </div>
                 <script src="public/js/script.js"></script>
             </body>
@@ -82,54 +62,36 @@ class AppView{
     }
 
     private function mainMenu(){
+        $listElements = "";
+        if($this->isActive('orders')){
+            $listElements = '
+            <li class="menu-products"> <a href="products">products</a> </li>
+            <li class="menu-orders"> <a href="orders" class="active-main-menu">oders</a> </li>
+            ';
+        }
+        elseif($this->renderHomepage()){
+            $listElements = '
+            <li class="menu-products"> <a href="products">products</a> </li>
+            <li class="menu-orders"> <a href="orders">oders</a> </li>
+            ';
+        }
+        else
+        {
+            $listElements = '
+            <li class="menu-products"> <a href="products" class="active-main-menu">products</a> </li>
+            <li class="menu-orders"> <a href="orders">oders</a> </li>
+            ';
+        }
+
         return '
         <div class="main-menu">
             <ul>
-                <li class="products">products</li>
-                <li class="orders">oders</li>
-                <li class="sort">sort by</li>
+                '.$listElements.' 
             </ul>
         </div>';
-    }
-
-    private function categoryMenu() : string {
-        $categories = $this->dbHandler->getMainCategories();
-        $listCategories = $this->getCategoriesListed($categories);
-
-        return '
-            <div class="categories-menu">
-                '.$listCategories.'
-            </div>
-        ';
-    }
-
-    private function getCategoriesListed($categories) : string{
-        $cats = '<ul>';
-        foreach($categories as $cat){
-            $name = $cat["name"];
-            $id = $cat["category_id"];    
         
-            if($this->isActive($name)){
-                $cats .= 
-                    '<li id="'.$id.'">
-                        <a href="'.$name.'" class="active"> '.$name.' </a>
-                    </li>';
-            }
-            else
-            {
-                $cats .= 
-                '<li id="'.$id.'">
-                    <a href="'.$name.'"> '.$name.' </a>
-                </li>';
-            }
-            
-        }
-
-        return $cats . '</ul>';
-
     }
 
-    
 
     private function isActive($dir){
         $trimmedUrl = ltrim($_SERVER['REQUEST_URI'], '/');
@@ -137,21 +99,5 @@ class AppView{
 
         return $currentDir === $dir;
     }
-
-
-    private function activeCategory(){
-        $trimmedUrl = ltrim($_SERVER['REQUEST_URI'], '/');
-        $currentDir = urldecode($trimmedUrl);
-
-        return $currentDir;
-    }
-
-    private function homepageHtml() : string {
-        return 
-        '<div class="homepage">
-            <p>home page!</p>
-        </div>';
-    }
-
 
 }

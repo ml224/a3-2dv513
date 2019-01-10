@@ -32,6 +32,12 @@ class DatabaseHandler{
         }
     }
 
+    public function fetchArray($query){
+        return $this->database->fetchArray($query);
+    }
+
+    //TODO: restructure so that view sends in query as arg
+
     public function addCategory(array $cat) : void {
         $query = $this->queries->addCategory($cat);
         $this->database->query($query);
@@ -66,6 +72,12 @@ class DatabaseHandler{
 
         //TODO: throw exception here and in db class if category name does not exist
 
+    }
+
+    public function getAllProducts(){
+        $query = $this->queries->getAllProducts();
+        $products = $this->database->fetchArray($query);
+        return $products;
     }
 
     public function close(){

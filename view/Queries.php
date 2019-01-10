@@ -77,6 +77,14 @@ class Queries{
         ";
     }
 
+    public function getAllProducts(){
+        return 
+        "
+        SELECT name as product_name, price, sku, currency, size, stock, product_id 
+        FROM products
+        ";
+    }
+
     public function getMainCategories(){
         return "SELECT name, category_id FROM categories WHERE parent_id = 0";    
     }
