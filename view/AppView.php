@@ -48,14 +48,14 @@ class AppView{
             <head>
                 <meta charset="utf-8">
                 <title>web shop</title>
-                <link rel="stylesheet" href="public/css/style.css">
+                <link rel="stylesheet" href="/public/css/style.css">
             </head>
             <body>
                 <div id="container">
                     '.$this->mainMenu().'
                     '.$body.'
                 </div>
-                <script src="public/js/script.js"></script>
+                <script src="/public/js/script.js"></script>
             </body>
         </html>
         ';
@@ -72,7 +72,7 @@ class AppView{
         elseif($this->renderHomepage()){
             $listElements = '
             <li class="menu-products"> <a href="products">products</a> </li>
-            <li class="menu-orders"> <a href="orders">oders</a> </li>
+            <li class="menu-orders"> <a href="orders">orders</a> </li>
             ';
         }
         else

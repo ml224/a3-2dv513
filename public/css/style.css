@@ -3,23 +3,68 @@ body{
     font-size: 10px;
 }
 
-#container{
-    display: inline;
+
+  .main-menu ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+ }
+
+ .main-menu li{
+     float: left;
+ }
+  
+  .main-menu a{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+
+  }
+  
+  .active-main-menu{
+    color: black !important;
+    background-color: white;
 }
 
-.categories-menu{
-    padding: 2px;
-    margin: 2px;
-}
+  .sort-by ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #f1f1f1;
+  }
+
+  .sort-by li{
+      float: left;
+      padding: 5px;
+  }
+  
+  .sort-by a{
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+  .sort-by a:hover{
+      background-color: #555;
+      color: white;
+  }
+  
 .categories-menu ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 25%;
+    width: 20%;
     background-color: #f1f1f1;
     height: 100%; 
-    float: left;
+    position: absolute;
     overflow: auto; 
+    float: left;
   }
 
 .categories-menu li{
@@ -53,6 +98,11 @@ body{
       color: blue;
   }
 
+  .products{
+    margin-left:22%;
+
+  }
+
   .product{
       display: inline-block;
       border-style: solid;
@@ -64,32 +114,5 @@ body{
       overflow: auto;
   }
 
-  .main-menu{
-    background-color: aliceblue;
-}
+ 
 
- .main-menu ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
- }
-
-  .main-menu li{
-    float: left;
-  }
-  
-  .main-menu a{
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-
-  }
-
-  .active-main-menu{
-      color: black !important;
-      background-color: white;
-  }
