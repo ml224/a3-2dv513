@@ -33,7 +33,12 @@ class DatabaseHandler{
     }
 
     public function fetchArray($query){
-        return $this->database->fetchArray($query);
+        $result = $this->database->fetchArray($query);
+        if(empty($result)){
+            throw new Exception('Category does not exist');
+        } 
+
+        return $result;
     }
 
     //TODO: restructure so that view sends in query as arg

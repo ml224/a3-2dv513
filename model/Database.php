@@ -70,6 +70,7 @@ class Database{
                 array_push($categories, $cat);
             }
 
+            $result->free();
             return $categories;
             
         } catch(Exception $e){

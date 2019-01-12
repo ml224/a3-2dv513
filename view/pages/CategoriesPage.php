@@ -1,12 +1,15 @@
 <?php
 require_once("view/Queries.php");
+require_once("view/Navigation.php");
 
 class CategoriesPage{
     private $queries;
     private $dbHandler;
+    private $navigation;
     
     function __construct(DatabaseHandler $dbHandler){
         $this->queries = new Queries();
+        $this->navigation = new Navigation();
         $this->dbHandler = $dbHandler;
     }
 
@@ -43,7 +46,7 @@ class CategoriesPage{
             $name = $cat["name"];
             $id = $cat["category_id"];    
         
-            if($this->isActive($name)){
+            if($this->navigation->getActiveDir() === $name){
                 $cats .= 
                     '<li id="'.$id.'">
                         <a href="/'.$name.'" class="active"> '.$name.' </a>
@@ -59,7 +62,7 @@ class CategoriesPage{
             
         }
 
-        $all = $this->isActive('alla-kategorier') ?
+        $all = $this->navigation->getActiveDir() === 'alla-kategorier' ?
         '<li><a href="/alla-kategorier" class="active">alla kategorier</a></li>':
         '<li><a href="/alla-kategorier">alla kategorier</a></li>';
 
@@ -69,11 +72,9 @@ class CategoriesPage{
     }
 
     private function getProducts(){
-        if($this->isActive('alla-kategorier'))
+        if($this->navigation->getActiveDir() === 'alla-kategorier')
         {
-            $query = $this->queries->getAllProducts();
-            $products = $this->dbHandler->fetchArray($query);
-            return $this->listProducts($products);
+            return $this->getAllProducts();
         } 
         else
         {
@@ -81,11 +82,56 @@ class CategoriesPage{
         }
     }
 
-    private function activeCategory(){
-        $trimmedUrl = ltrim($_SERVER['REQUEST_URI'], '/');
-        $currentDir = urldecode($trimmedUrl);
+    private function getAllProducts(){
+        $query;
 
-        return $currentDir;
+        if($this->navigation->sortBy()){
+            if($this->navigation->sortByPrice()){
+                $query = $this->queries->getAllProductsByPrice();
+            }
+            if($this->navigation->sortByStock()){
+                $query = $this->queries->getAllProductsByStock();
+                
+            }
+            if($this->navigation->sortByPopularity()){
+                $query = $this->queries->getAllProductsByPopularity();
+            }
+        } else{
+            $query = $this->queries->getAllProducts();
+        }
+        $products = $this->dbHandler->fetchArray($query);
+        
+        return $this->listProducts($products);
+    }
+
+    
+    private function getProductsByCategory(){
+        $query;
+        $cat = $this->navigation->getActiveDir();
+        
+        if($this->navigation->sortBy()){
+            
+            if($this->navigation->sortByPrice()){
+                $query = $this->queries->getProductsByPrice($cat);
+            }
+            if($this->navigation->sortByStock()){
+                $query = $this->queries->getProductsByStock($cat);
+                
+            }
+            if($this->navigation->sortByPopularity()){
+                $query = $this->queries->getProductsByPopularity($cat);
+            }
+        } else{
+            $query = $this->queries->getProducts($cat);
+        }
+        try{
+            $products = $this->dbHandler->fetchArray($query);        
+
+            return $this->listProducts($products);
+        } catch(Exception $e){
+            return $this->pageNotFound();
+        }
+        
     }
 
     private function listProducts($products){
@@ -111,19 +157,6 @@ class CategoriesPage{
 
 
 
-    private function getProductsByCategory(){
-        try
-        {
-            $cat = $this->activeCategory();
-            $query = $this->queries->getProductsByCategoryName($cat);
-            $products = $this->dbHandler->fetchArray($query);
-            return $this->listProducts($products);
-        } 
-        catch(Exception $e)
-        {
-            return $this->pageNotFound();
-        }
-    }
 
     
     private function pageNotFound(){
@@ -145,27 +178,27 @@ class CategoriesPage{
     }
 
     private function getListElements(){
-        $sortUrl = $this->getActiveDir() . '/?sort=';
+        $sortUrl = $this->navigation->getActiveDir() . '/?sort=';
         
         $sortPrice = $sortUrl . 'price';
         $sortStockAmount = $sortUrl . 'stock';
         $sortPopularity = $sortUrl . 'popular';
 
-        if($this->sortBy()){
-            if($this->sortByPrice()){
+        if($this->navigation->sortBy()){
+            if($this->navigation->sortByPrice()){
                 return '
                 <li><a href="/'.$sortPrice.'" class="active">pris</a></li>
                 <li><a href="/'.$sortStockAmount.'">lagerantal</a></li>
                 <li><a href="/'.$sortPopularity.'">popularitet</a></li>';
             }
-            if($this->sortByStock()){
+            if($this->navigation->sortByStock()){
                 return '
                 <li><a href="/'.$sortPrice.'">pris</a></li>
                 <li><a href="/'.$sortStockAmount.'" class="active">lagerantal</a></li>
                 <li><a href="/'.$sortPopularity.'">popularitet</a></li>
                 ';
             } 
-            if($this->sortByPopularity()){
+            if($this->navigation->sortByPopularity()){
                 return '
                 <li><a href="/'.$sortPrice.'">pris</a></li>
                 <li><a href="/'.$sortStockAmount.'">lagerantal</a></li>
@@ -181,40 +214,5 @@ class CategoriesPage{
         ';
     }
 
-    private function sortBy(){
-        return isset($_GET['sort']);
-    }
-
-    private function sortByPrice(){
-        return $_GET['sort'] === 'price';
-    }
-
-    private function sortByStock(){
-        return $_GET['sort'] === 'stock';
-    }
-
-    private function sortByPopularity(){
-        return $_GET['sort'] === 'popular';
-    }
-
-    private function sortRequested(){
-        return isset($_GET);
-    }
-
-    //TODO: place in other class and access both from here and in appview
-    private function isActive($dir){
-        $trimmedUrl = ltrim($_SERVER['REQUEST_URI'], '/');
-        $currentDir = urldecode($trimmedUrl);
-
-        return $currentDir === $dir;
-    }
-
-    private function getActiveDir(){
-        $trimmedUrl = ltrim($_SERVER['REQUEST_URI'], '/');
-        $urlArray = explode("/?", $trimmedUrl);
-        $currentDir = urldecode($urlArray[0]);
-
-        return $currentDir;
-    }
 
 }

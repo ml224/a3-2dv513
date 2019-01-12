@@ -1,10 +1,15 @@
 <?php
 require_once("view/pages/CategoriesPage.php");
 require_once("view/pages/OrdersPage.php");
+require_once("view/Navigation.php");
 
 class AppView{
+    private $dbHandler;
+    private $navigation;
+
     function __construct(DatabaseHandler $dbHandler){
         $this->dbHandler = $dbHandler;
+        $this->navigation = new Navigation();
     }
 
     public function renderApp() : void {
@@ -17,7 +22,7 @@ class AppView{
         {
             return $this->homepageHtml();
         }
-        elseif($this->isActive('orders'))
+        elseif($this->navigation->getActiveDir() === 'orders')
         {
             $ordersPage = new OrdersPage();
             return $ordersPage->getPageContent();
@@ -63,7 +68,7 @@ class AppView{
 
     private function mainMenu(){
         $listElements = "";
-        if($this->isActive('orders')){
+        if($this->navigation->getActiveDir() === 'orders'){
             $listElements = '
             <li class="menu-products"> <a href="products">products</a> </li>
             <li class="menu-orders"> <a href="orders" class="active-main-menu">oders</a> </li>
@@ -93,11 +98,5 @@ class AppView{
     }
 
 
-    private function isActive($dir){
-        $trimmedUrl = ltrim($_SERVER['REQUEST_URI'], '/');
-        $currentDir = urldecode($trimmedUrl);
-
-        return $currentDir === $dir;
-    }
 
 }

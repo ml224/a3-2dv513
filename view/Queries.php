@@ -68,7 +68,7 @@ class Queries{
         return "INSERT IGNORE INTO customers (customer_id, firstname, lastname, address, city, country, zip, email) VALUES ('$customer_id', '$firstname', '$lastname', '$address', '$city', '$country', '$zip', '$email')";        
     }
 
-    public function getProductsByCategoryName($catName){
+    public function getProducts($catName){
         return "
             SELECT p.name as product_name, c.name as category_name, p.category_id, price, sku, currency, size, stock, product_id 
             FROM products p 
@@ -87,5 +87,47 @@ class Queries{
 
     public function getMainCategories(){
         return "SELECT name, category_id FROM categories WHERE parent_id = 0";    
+    }
+
+    public function getProductsByPrice($catName){
+        return 
+        $this->getProducts($catName) . 
+        " ORDER BY price";
+    }
+
+    public function getProductsByStock($catName){
+        return 
+        $this->getProducts($catName) . 
+        " ORDER BY stock";
+    }
+
+    public function getProductsByPopularity($catName){
+        $prductsQuery = $this->getProducts($catName); 
+        return $productsQuery;
+        /*$sortedProductsQuery = 
+        "SELECT * FROM ($productsQuery) AS products 
+        INNER JOIN products.sku ON orders.sku";
+        */
+    }
+
+    public function getAllProductsByPrice(){
+        return 
+        $this->getAllProducts() . 
+        "ORDER BY price";
+    }
+
+    public function getAllProductsByStock(){
+        return 
+        $this->getAllProducts() . 
+        " ORDER BY stock";
+    }
+
+    public function getAllProductsByPopularity(){
+        $productsQuery = $this->getAllProducts(); 
+        return $productsQuery;
+        /*$sortedProductsQuery = 
+        "SELECT * FROM ($productsQuery) AS products 
+        INNER JOIN products.sku ON orders.sku";
+        */
     }
 }
