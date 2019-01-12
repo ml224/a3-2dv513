@@ -64,7 +64,7 @@ class Database{
     public function fetchArray($query){
         try{
             $categories = array();
-            $result = $this->mysqli->query($query);
+            $result = $this->mysqli->query($query) or print($this->mysqli->error);
 
             while($cat = $result->fetch_array(MYSQLI_ASSOC)) {
                 array_push($categories, $cat);

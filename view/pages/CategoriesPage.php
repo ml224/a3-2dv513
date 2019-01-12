@@ -70,42 +70,8 @@ class CategoriesPage{
         return $cats . $all . '</ul>';
 
     }
-
-    private function getProducts(){
-        if($this->navigation->getActiveDir() === 'alla-kategorier')
-        {
-            return $this->getAllProducts();
-        } 
-        else
-        {
-            return $this->getProductsByCategory();
-        }
-    }
-
-    private function getAllProducts(){
-        $query;
-
-        if($this->navigation->sortBy()){
-            if($this->navigation->sortByPrice()){
-                $query = $this->queries->getAllProductsByPrice();
-            }
-            if($this->navigation->sortByStock()){
-                $query = $this->queries->getAllProductsByStock();
-                
-            }
-            if($this->navigation->sortByPopularity()){
-                $query = $this->queries->getAllProductsByPopularity();
-            }
-        } else{
-            $query = $this->queries->getAllProducts();
-        }
-        $products = $this->dbHandler->fetchArray($query);
-        
-        return $this->listProducts($products);
-    }
-
     
-    private function getProductsByCategory(){
+    private function getProducts(){
         $query;
         $cat = $this->navigation->getActiveDir();
         
@@ -126,7 +92,6 @@ class CategoriesPage{
         }
         try{
             $products = $this->dbHandler->fetchArray($query);        
-
             return $this->listProducts($products);
         } catch(Exception $e){
             return $this->pageNotFound();

@@ -69,20 +69,17 @@ class Queries{
     }
 
     public function getProducts($catName){
-        return "
+        $query = "
             SELECT p.name as product_name, c.name as category_name, p.category_id, price, sku, currency, size, stock, product_id 
             FROM products p 
-            JOIN categories c on c.category_id = p.category_id 
-            WHERE c.name = '$catName'
+            JOIN categories c on c.category_id = p.category_id
         ";
-    }
 
-    public function getAllProducts(){
-        return 
-        "
-        SELECT name as product_name, price, sku, currency, size, stock, product_id 
-        FROM products
-        ";
+        if($catName !== 'alla-kategorier'){  
+            $query .= " WHERE c.name = '$catName'"; 
+        }
+
+        return $query;    
     }
 
     public function getMainCategories(){
@@ -102,32 +99,20 @@ class Queries{
     }
 
     public function getProductsByPopularity($catName){
-        $prductsQuery = $this->getProducts($catName); 
-        return $productsQuery;
-        /*$sortedProductsQuery = 
-        "SELECT * FROM ($productsQuery) AS products 
-        INNER JOIN products.sku ON orders.sku";
-        */
+        $productsQuery = $this->getProducts($catName); 
+        $orderSum = $this->getOrderSum();
+
+        $sortedProductsQuery = 
+        "SELECT product_name, category_name, category_id, price, p.sku, currency, size, stock, product_id, IFNULL(quantity_sold, 0) AS quantity_sold 
+        FROM ($productsQuery) AS p 
+        LEFT JOIN  ($orderSum) AS o
+        ON p.sku = o.sku
+        ORDER BY quantity_sold DESC";
+        
+        return $sortedProductsQuery;
     }
 
-    public function getAllProductsByPrice(){
-        return 
-        $this->getAllProducts() . 
-        "ORDER BY price";
-    }
-
-    public function getAllProductsByStock(){
-        return 
-        $this->getAllProducts() . 
-        " ORDER BY stock";
-    }
-
-    public function getAllProductsByPopularity(){
-        $productsQuery = $this->getAllProducts(); 
-        return $productsQuery;
-        /*$sortedProductsQuery = 
-        "SELECT * FROM ($productsQuery) AS products 
-        INNER JOIN products.sku ON orders.sku";
-        */
+    private function getOrderSum(){
+        return "SELECT SUM(quantity) AS quantity_sold, sku FROM orders GROUP BY sku";
     }
 }

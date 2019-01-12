@@ -70,21 +70,21 @@ class AppView{
         $listElements = "";
         if($this->navigation->getActiveDir() === 'orders'){
             $listElements = '
-            <li class="menu-products"> <a href="products">products</a> </li>
-            <li class="menu-orders"> <a href="orders" class="active-main-menu">oders</a> </li>
+            <li class="menu-products"> <a href="/products">products</a> </li>
+            <li class="menu-orders"> <a href=/orders" class="active-main-menu">oders</a> </li>
             ';
         }
         elseif($this->renderHomepage()){
             $listElements = '
-            <li class="menu-products"> <a href="products">products</a> </li>
-            <li class="menu-orders"> <a href="orders">orders</a> </li>
+            <li class="menu-products"> <a href="/products">products</a> </li>
+            <li class="menu-orders"> <a href="/orders">orders</a> </li>
             ';
         }
         else
         {
             $listElements = '
-            <li class="menu-products"> <a href="products" class="active-main-menu">products</a> </li>
-            <li class="menu-orders"> <a href="orders">oders</a> </li>
+            <li class="menu-products"> <a href="/products" class="active-main-menu">products</a> </li>
+            <li class="menu-orders"> <a href="/orders">oders</a> </li>
             ';
         }
 
