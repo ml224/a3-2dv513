@@ -68,7 +68,24 @@ class Queries{
         return "INSERT IGNORE INTO customers (customer_id, firstname, lastname, address, city, country, zip, email) VALUES ('$customer_id', '$firstname', '$lastname', '$address', '$city', '$country', '$zip', '$email')";        
     }
 
+    public function getMainCategories(){
+        return "SELECT name, category_id FROM categories WHERE parent_id = 0";    
+    }
+
     public function getProducts($catName){
+        $productsQuery = $this->productsQuery($catName); 
+        $orderSumQuery = $this->orderSumQuery();
+
+        $joinedTablesQuery = 
+        "SELECT product_name, category_name, category_id, price, p.sku, currency, size, stock, product_id, IFNULL(quantity_sold, 0) AS quantity_sold 
+        FROM ($productsQuery) AS p 
+        LEFT JOIN  ($orderSumQuery) AS o
+        ON p.sku = o.sku";
+
+        return $joinedTablesQuery;
+    }
+
+    private function productsQuery($catName){
         $query = "
             SELECT p.name as product_name, c.name as category_name, p.category_id, price, sku, currency, size, stock, product_id 
             FROM products p 
@@ -79,12 +96,14 @@ class Queries{
             $query .= " WHERE c.name = '$catName'"; 
         }
 
-        return $query;    
+        return $query;   
     }
 
-    public function getMainCategories(){
-        return "SELECT name, category_id FROM categories WHERE parent_id = 0";    
+    
+    private function orderSumQuery(){
+        return "SELECT SUM(quantity) AS quantity_sold, sku FROM orders GROUP BY sku";
     }
+
 
     public function getProductsByPrice($catName){
         return 
@@ -99,20 +118,7 @@ class Queries{
     }
 
     public function getProductsByPopularity($catName){
-        $productsQuery = $this->getProducts($catName); 
-        $orderSum = $this->getOrderSum();
-
-        $sortedProductsQuery = 
-        "SELECT product_name, category_name, category_id, price, p.sku, currency, size, stock, product_id, IFNULL(quantity_sold, 0) AS quantity_sold 
-        FROM ($productsQuery) AS p 
-        LEFT JOIN  ($orderSum) AS o
-        ON p.sku = o.sku
-        ORDER BY quantity_sold DESC";
-        
-        return $sortedProductsQuery;
+        return $this->getProducts($catName) . " ORDER BY quantity_sold DESC";
     }
 
-    private function getOrderSum(){
-        return "SELECT SUM(quantity) AS quantity_sold, sku FROM orders GROUP BY sku";
-    }
 }

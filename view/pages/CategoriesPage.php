@@ -108,12 +108,15 @@ class CategoriesPage{
             $price = $product["price"];
             $currency = $product["currency"];
             $stock = $product["stock"];
+            $orderAmount = $product["quantity_sold"];
+
             $html .= 
             '<li class="product">
                 <p class="title">'.$title.'</p>
                 <p class="product-id">produkt id: '.$productId.'</p>
                 <p class="product-id">strl: '.$size.'</p>
                 <p class="stock">Lagerantal: '.$stock.'</p>
+                <p class="quantity-sold">Antal beställningar: '.$orderAmount.'</p>
                 <p class="price">'.$price.' '.$currency.'</p>
             </li>';
         }
@@ -131,7 +134,7 @@ class CategoriesPage{
     }
 
     private function sortingOptions(){
-        $listElements = $this->getListElements();
+        $listElements = $this->getSortElements();
 
         return '
         <div class="sort-by">
@@ -142,7 +145,7 @@ class CategoriesPage{
         ';
     }
 
-    private function getListElements(){
+    private function getSortElements(){
         $sortUrl = $this->navigation->getActiveDir() . '/?sort=';
         
         $sortPrice = $sortUrl . 'price';
