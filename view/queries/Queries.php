@@ -121,4 +121,29 @@ class Queries{
         return $this->getProducts($catName) . " ORDER BY quantity_sold DESC";
     }
 
+    public function getOrderDetails(){
+        $q = "
+        SELECT date, customer_id, firstname, lastname, address, city, zip, country, email  
+        FROM customers
+        NATURAL JOIN orders  
+        GROUP BY date, customer_id";
+        return $q;
+    }
+
+
+    public function getOrderProducts($customerId, $date){
+        $ordersAndProducts = $this->ordersAndProductsCombined();
+        return 
+        "
+        SELECT * FROM ($ordersAndProducts) p
+        WHERE date = '$date' AND customer_id = $customerId
+        ORDER BY date DESC
+        ";
+    }
+
+    
+    private function ordersAndProductsCombined(){
+        return "SELECT name, size, price, currency, product_id, customer_id, DATE(date) as date, p.sku, quantity FROM products p NATURAL JOIN orders o";
+    }
+
 }

@@ -1,5 +1,6 @@
 <?php
-require_once("view/Queries.php");
+require_once("view/queries/Queries.php");
+require_once("view/pages/NotFound.php");
 require_once("view/Navigation.php");
 
 class CategoriesPage{
@@ -94,7 +95,8 @@ class CategoriesPage{
             $products = $this->dbHandler->fetchArray($query);        
             return $this->listProducts($products);
         } catch(Exception $e){
-            return $this->pageNotFound();
+            $notFound = new NotFoundPage();
+            return $notFound->getPageContent();
         }
         
     }
@@ -124,17 +126,9 @@ class CategoriesPage{
     }
 
 
-
-
-    
-    private function pageNotFound(){
-        return '
-        <h1>404</h1>
-        <p>Oops! The page was not found</p>';
-    }
-
     private function sortingOptions(){
-        $listElements = $this->getSortElements();
+        $listElementSort = '<li class="sortera">sortera: </li>';
+        $listElements = $listElementSort . $this->getSortElements();
 
         return '
         <div class="sort-by">

@@ -4,10 +4,26 @@ class Navigation{
 
     public function getActiveDir(){
         $trimmedUrl = ltrim($_SERVER['REQUEST_URI'], '/');
-        $urlArray = explode("/?", $trimmedUrl);
+        $urlArray = explode("/", $trimmedUrl);
         $currentDir = urldecode($urlArray[0]);
 
         return $currentDir;
+    }
+    
+
+    public function hasSubDir(){
+        $trimmedUrl = ltrim($_SERVER['REQUEST_URI'], '/');
+        $urlArray = explode("/", $trimmedUrl);
+        return count($urlArray) > 1;
+    }
+
+    
+    public function getSubDir(){
+        $trimmedUrl = ltrim($_SERVER['REQUEST_URI'], '/');
+        $urlArray = explode("/", $trimmedUrl);
+        $subDir = urldecode($urlArray[1]);
+
+        return $subDir;
     }
     
     public function sortBy(){
@@ -24,9 +40,5 @@ class Navigation{
 
     public function sortByPopularity(){
         return $_GET['sort'] === 'popular';
-    }
-
-    public function sortRequested(){
-        return isset($_GET);
     }
 }

@@ -1,5 +1,5 @@
 <?php
-require_once("view/Queries.php");
+require_once("view/queries/Queries.php");
 
 class Database{
     private $mysqli;

@@ -1,5 +1,5 @@
 <?php
-require_once("view/Queries.php");
+require_once("view/queries/Queries.php");
 
 class DatabaseHandler{
     private $database;
@@ -33,12 +33,13 @@ class DatabaseHandler{
     }
 
     public function fetchArray($query){
-        $result = $this->database->fetchArray($query);
-        if(empty($result)){
-            throw new Exception('Category does not exist');
-        } 
-
-        return $result;
+        try{
+            $result = $this->database->fetchArray($query);
+            return $result;
+        }catch(Exception $e){
+            echo $e;
+        }
+        
     }
 
     //TODO: restructure so that view sends in query as arg

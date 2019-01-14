@@ -18,13 +18,9 @@ class AppView{
     }
 
     private function getBody(){
-        if($this->renderHomepage())
+        if($this->navigation->getActiveDir() === 'orders')
         {
-            return $this->homepageHtml();
-        }
-        elseif($this->navigation->getActiveDir() === 'orders')
-        {
-            $ordersPage = new OrdersPage();
+            $ordersPage = new OrdersPage($this->dbHandler);
             return $ordersPage->getPageContent();
         } 
         else
@@ -67,11 +63,11 @@ class AppView{
     }
 
     private function mainMenu(){
-        $listElements = "";
+        $listElements = '';
         if($this->navigation->getActiveDir() === 'orders'){
             $listElements = '
             <li class="menu-products"> <a href="/products">products</a> </li>
-            <li class="menu-orders"> <a href=/orders" class="active-main-menu">oders</a> </li>
+            <li class="menu-orders"> <a href="/orders" class="active-main-menu">orders</a> </li>
             ';
         }
         elseif($this->renderHomepage()){
@@ -84,7 +80,7 @@ class AppView{
         {
             $listElements = '
             <li class="menu-products"> <a href="/products" class="active-main-menu">products</a> </li>
-            <li class="menu-orders"> <a href="/orders">oders</a> </li>
+            <li class="menu-orders"> <a href="/orders">orders</a> </li>
             ';
         }
 
