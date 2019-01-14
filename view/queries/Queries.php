@@ -137,7 +137,6 @@ class Queries{
         "
         SELECT * FROM ($ordersAndProducts) p
         WHERE date = '$date' AND customer_id = $customerId
-        ORDER BY date DESC
         ";
     }
 
