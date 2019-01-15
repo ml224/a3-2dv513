@@ -1,0 +1,324 @@
+{
+        "categories": [
+            {
+                "name": "spannar",
+                "id": 15897, 
+                "parent_id": null 
+            }, 
+            {
+                "name": "maskiner",
+                "id": 15896, 
+                "parent_id": null 
+            },
+            {
+                "name": "kläder",
+                "id": 15895, 
+                "parent_id": null 
+            },
+            {
+                "name": "skor",
+                "id": 15677,
+                "parent_id": 15895
+            }        
+        ],
+        "products": [
+            {
+                "sku": "55897",
+                "name": "spann plast, 30l",
+                "product_id": 55897, 
+                "category_id": 15897,
+                "price": 89,
+                "currency": "sek",
+                "discount_percentage": null,
+                "size": null,
+                "stock": 15 
+            }, 
+            {
+                "sku": "55896",
+                "name": "handtag milkline spann",
+                "product_id": 55896, 
+                "category_id": 15897,
+                "price": 49,
+                "currency": "sek",
+                "discount_percentage": null,
+                "size": null,
+                "stock": 25  
+            },
+            {
+                "sku": "55895",
+                "name": "spann rostfri",
+                "product_id": 55895, 
+                "category_id": 15897,
+                "price": 145,
+                "currency": "sek",
+                "discount_percentage": null,
+                "size": null,  
+                "stock": 4  
+            },
+            {
+                "sku": "55355",
+                "name": "mjölkmaskin, 140l",
+                "product_id": 55355, 
+                "category_id": 15896,
+                "price": 490,
+                "currency": "sek",
+                "discount_percentage": 25,
+                "size": null,  
+                "stock": 5   
+            }, 
+            {
+                "sku": "55455",
+                "name": "mjölkmaskin får",
+                "product_id": 55455, 
+                "category_id": 15896,
+                "price": 650,
+                "currency": "sek",
+                "discount_percentage": null,
+                "size": null,  
+                "stock": 0   
+            },
+            {
+                "sku": "55855",
+                "name": "mjölkmaskin get",
+                "product_id": 55855, 
+                "category_id": 15896,
+                "price": 529,
+                "currency": "sek",
+                "discount_percentage": 10,
+                "size": null,  
+                "stock": 0   
+            },
+            {
+                "sku": "55386-42",
+                "name": "GS toffeln",
+                "product_id": 55386, 
+                "category_id": 15677,
+                "price": 199,
+                "currency": "sek",
+                "discount_percentage": null,
+                "size": "42",  
+                "stock": 2   
+            }, 
+            {
+                "sku": "55477-m",
+                "name": "arbetshandskar",
+                "product_id": 55477, 
+                "category_id": 15895,
+                "price": 35,
+                "currency": "sek",
+                "discount_percentage": null,
+                "size": "m",  
+                "stock": 125   
+            },
+            {
+                "sku": "55178",
+                "name": "skoskydd",
+                "product_id": 55178, 
+                "category_id": 15895,
+                "price": 50,
+                "currency": "sek",
+                "discount_percentage": null,
+                "size": null,  
+                "stock": 250   
+            }
+            
+        ],
+        "customers": [
+            {
+                "customer_id": 48678,
+                "firstname": "Karl",
+                "lastname": "Eriksson",
+                "address": "Riddaregatan 55",
+                "city": "Borås",
+                "zip": "52121",
+                "country": "sverige",
+                "email": "karlerik@live.se",
+                "phone_number": "033-524863"
+            },
+            {
+                "customer_id": 48679,
+                "firstname": "Johan",
+                "lastname": "Andersson",
+                "address": "Blåtorp 15",
+                "city": "Limmared",
+                "zip": "24589",
+                "country": "sverige",
+                "email": "jand@gmail.com",
+                "phone_number": null
+            },
+            {
+                "customer_id": 48680,
+                "firstname": "Rune",
+                "lastname": "Grönberg",
+                "address": "Andersvallagatan 5",
+                "city": "Gultorp",
+                "zip": "85647",
+                "country": "sverige",
+                "email": "RuneG@gmail.com",
+                "phone_number": null
+            },
+            {
+                "customer_id": 48681,
+                "firstname": "Ditte",
+                "lastname": "Einersen",
+                "address": "Uelands gate",
+                "city": "Oslo",
+                "zip": "15468",
+                "country": "norge",
+                "email": "ditteeinersen@mail.no",
+                "phone_number": null
+            }, 
+            {
+                "customer_id": 48682,
+                "firstname": "Leena",
+                "lastname": "Tuulikki",
+                "address": "Otaranta 2",
+                "city": "Espoo",
+                "zip": "02150",
+                "country": "finland",
+                "email": "tuulikki@live.fi",
+                "phone_number": null
+            }, 
+            {
+                "customer_id": 48683,
+                "firstname": "Gertrud",
+                "lastname": "Holmstad",
+                "address": "Ottostorp 1",
+                "city": "Esplöv",
+                "zip": "12457",
+                "country": "sverige",
+                "email": "gerta45@hotmail.se",
+                "phone_number": null
+            }, 
+            {
+                "customer_id": 48684,
+                "firstname": "Lowe",
+                "lastname": "Karlsson",
+                "address": "Koltorp 4",
+                "city": "Karlstad",
+                "zip": "12345",
+                "country": "sverige",
+                "email": "tuulikki@live.fi",
+                "phone_number": null
+            }, 
+            {
+                "customer_id": 48685,
+                "firstname": "Tuurkku",
+                "lastname": "Ailoo",
+                "address": "Tarantta 16",
+                "city": "Espoo",
+                "zip": "02151",
+                "country": "finland",
+                "email": "tuurku@live.fi",
+                "phone_number": null
+            }
+        ],
+        "orders": [
+            {
+                "id": 12,
+                "sku": "55897",
+                "date": "2017-12-27",
+                "customer_id": 48681,
+                "quantity": 2
+            },
+            {
+                "id": 13,
+                "sku": "55897",
+                "date": "2018-12-29",
+                "customer_id": 48681,
+                "quantity": 1
+            },
+            {
+                "id": 14,
+                "sku": "55895",
+                "date": "2018-11-27",
+                "customer_id": 48680,
+                "quantity": 2
+            },
+            {
+                "id": 15,
+                "sku": "55895",
+                "date": "2018-11-27",
+                "customer_id": 48680,
+                "quantity": 1
+            },
+            {
+                "id": 16,
+                "sku": "55895",
+                "date": "2018-10-15",
+                "customer_id": 48682,
+                "quantity": 3
+            },
+            {
+                "id": 17,
+                "sku": "55855",
+                "date": "2018-06-01",
+                "customer_id": 48678,
+                "quantity": 1
+            },
+            {
+                "id": 18,
+                "sku": "55386-42",
+                "date": "2018-06-01",
+                "customer_id": 48678,
+                "quantity": 1
+            },
+            {
+                "id": 19,
+                "sku": "55477-m",
+                "date": "2017-06-27",
+                "customer_id": 48679,
+                "quantity": 2
+            },
+            {
+                "id": 20,
+                "sku": "55178",
+                "date": "2017-06-27",
+                "customer_id": 48679,
+                "quantity": 1
+            },
+            {
+                "id": 21,
+                "sku": "55455",
+                "date": "2018-01-05",
+                "customer_id": 48685,
+                "quantity": 1
+            },
+            {
+                "id": 22,
+                "sku": "55895",
+                "date": "2016-11-27",
+                "customer_id": 48684,
+                "quantity": 1
+            },
+            {
+                "id": 23,
+                "sku": "55896",
+                "date": "2016-11-27",
+                "customer_id": 48684,
+                "quantity": 1
+            },
+            {
+                "id": 24,
+                "sku": "55178",
+                "date": "2018-02-15",
+                "customer_id": 48683,
+                "quantity": 3
+            },
+            {
+                "id": 25,
+                "sku": "55897",
+                "date": "2016-06-01",
+                "customer_id": 48682,
+                "quantity": 1
+            },
+            {
+                "id": 26,
+                "sku": "55178",
+                "date": "2016-06-01",
+                "customer_id": 48682,
+                "quantity": 2
+            }
+        ]
+    
+}
